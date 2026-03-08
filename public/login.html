@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    form { max-width: 300px; margin-bottom: 20px; }
+    input { display: block; margin: 10px 0; padding: 5px; width: 100%; }
+    button { background: blue; color: white; border: none; padding: 10px; cursor: pointer; }
+    .register { background: green; }
+  </style>
+</head>
+<body>
+  <h1>Login</h1>
+  <form id="loginForm">
+    <input type="email" id="loginEmail" placeholder="Email" required>
+    <input type="password" id="loginPassword" placeholder="Password" required>
+    <button type="submit">Login</button>
+  </form>
+  <p>Don't have an account? <a href="/signup">Sign Up</a></p>
+  <p><a href="/reset">Forgot Password?</a></p>
+
+  <script>
+    // Load users from localStorage
+    let users = JSON.parse(localStorage.getItem('users')) || [];
+
+    // Login
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+
+      const user = users.find(u => u.email === email && u.password === password);
+      if (user) {
+        localStorage.setItem('loggedInUser', email);
+        window.location.href = '/home';
+      } else {
+        alert('Invalid credentials');
+      }
+    });
+  </script>
+</body>
+</html>

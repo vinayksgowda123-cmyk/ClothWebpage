@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cloth Shop - Home</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .cloth { border: 1px solid #ccc; padding: 10px; margin: 10px; display: inline-block; }
+    button { background: blue; color: white; border: none; padding: 5px 10px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Welcome to Cloth Shop</h1>
+  <nav>
+    <a href="#" onclick="logout()">Logout</a> | <a href="/cart">Cart</a>
+  </nav>
+  <h2>Available Clothes</h2>
+  <div class="cloth">
+    <h3>T-Shirt</h3>
+    <p>Price: $20</p>
+    <button onclick="addToCart('T-Shirt', 20)">Add to Cart</button>
+  </div>
+  <div class="cloth">
+    <h3>Jeans</h3>
+    <p>Price: $50</p>
+    <button onclick="addToCart('Jeans', 50)">Add to Cart</button>
+  </div>
+  <div class="cloth">
+    <h3>Jacket</h3>
+    <p>Price: $80</p>
+    <button onclick="addToCart('Jacket', 80)">Add to Cart</button>
+  </div>
+  <script>
+    // Check if user is logged in
+    if (!localStorage.getItem('loggedInUser')) {
+      window.location.href = '/';
+    }
+
+    function addToCart(name, price) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.push({ name, price });
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert(name + ' added to cart');
+    }
+    function logout() {
+      localStorage.removeItem('loggedInUser');
+      window.location.href = '/';
+    }
+  </script>
+</body>
+</html>

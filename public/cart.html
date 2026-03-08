@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .item { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
+    button { background: red; color: white; border: none; padding: 5px 10px; cursor: pointer; margin: 5px; }
+  </style>
+</head>
+<body>
+  <h1>Your Cart</h1>
+  <div id="cart-items"></div>
+  <p>Total: $<span id="total">0</span></p>
+  <button onclick="checkout()">Proceed to Payment</button>
+  <script>
+    // Check if user is logged in
+    if (!localStorage.getItem('loggedInUser')) {
+      window.location.href = '/';
+    }
+
+    function loadCart() {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      let total = 0;
+      let itemsDiv = document.getElementById('cart-items');
+      itemsDiv.innerHTML = '';
+      cart.forEach((item, index) => {
+        total += item.price;
+        itemsDiv.innerHTML += `<div class="item">${item.name} - $${item.price} <button onclick="removeItem(${index})">Remove</button></div>`;
+      });
+      document.getElementById('total').textContent = total;
+    }
+    function removeItem(index) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      loadCart();
+    }
+    function checkout() {
+      window.location.href = '/payment';
+    }
+    loadCart();
+  </script>
+</body>
+</html>
